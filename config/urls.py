@@ -36,6 +36,7 @@ urlpatterns = [
 
     # APP
     path('api/v1/user/', include('user.urls')),
+    path('api/v1/main/', include('main.urls')),
 
     # SWAGGER DOCS
 
