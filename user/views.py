@@ -1,29 +1,27 @@
 from rest_framework import generics, status, views
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import api_view
+
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import login, logout, authenticate
-from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
-
+from django.core import signing
+from django.shortcuts import redirect
 
 from . import serializers
 from . import models
 from . import tasks
 
-def response_token_cookie(user):
-    refresh_token = RefreshToken.for_user(user)
-    access = str(refresh_token.access_token)
-    response = Response({'access_token': access})
-    response.set_cookie(
-        key="refresh_token",
-        value=str(refresh_token),
-        httponly=True,
-        secure=True,
-        samesite="Strict",
-        max_age=3600
-    )
-    return response
+# ✅ Tokenni tekshirish va emailni olish
+def decode_token(token):
+    from django.core import signing
+    try:
+        data = signing.loads(token, max_age=900)  # 15 daqiqa
+        return data['email']
+    except signing.SignatureExpired:
+        return "Token muddati tugagan"
+    except signing.BadSignature:
+        return "Token noto‘g‘ri"
 
 
 class LoginView(generics.GenericAPIView):
@@ -39,8 +37,10 @@ class LoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
         login(request, user)
-        response = response_token_cookie(user)
-        return response 
+        return Response({
+            "detail": _("Login successful."),
+            "email": user.email
+        }, status=status.HTTP_200_OK)
     
 class RegisterView(generics.GenericAPIView):
     """
@@ -48,14 +48,15 @@ class RegisterView(generics.GenericAPIView):
     """
     serializer_class = serializers.RegisterSerializer
     queryset = models.User.objects.all()
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        tasks.send_welcome_email.delay(serializer.data['email'])
+        tasks.send_welcome_email.delay(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+    
 class ProfileView(generics.RetrieveAPIView):
     """
     View for user profile.
@@ -65,6 +66,30 @@ class ProfileView(generics.RetrieveAPIView):
     
     def get_object(self):
         return self.request.user
+    
+@api_view(['GET'])
+def token_verify(request, token):
+    
+    if not token:
+        return Response({"detail": "Token yuborilmagan"}, status=status.HTTP_400_BAD_REQUEST)
+
+    if models.TokenVerify.objects.filter(token=token).exists():
+        return Response({"detail": "Token allaqachon ishlatilgan"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        email = decode_token(token)
+    except signing.SignatureExpired:
+        return Response({"detail": "Token muddati tugagan"}, status=status.HTTP_400_BAD_REQUEST)
+    except signing.BadSignature:
+        return Response({"detail": "Token noto‘g‘ri"}, status=status.HTTP_400_BAD_REQUEST)
+
+    if not models.User.objects.filter(email=email).exists():
+        return Response({"detail": "Foydalanuvchi topilmadi"}, status=status.HTTP_404_NOT_FOUND)
+    
+    user = models.User.objects.get(email=email)
+    login(request, user)
+    models.TokenVerify.objects.create(token=token)
+    return redirect("http://127.0.0.1:8000/api/v1/user/profile")  # Redirect to the desired URL after successful login
 
 class LogoutView(views.APIView):
     """
@@ -73,25 +98,6 @@ class LogoutView(views.APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        try:
-            # Refresh tokenni cookie orqali olish
-            refresh_token = request.COOKIES.get('refresh_token')
-            if refresh_token is None:
-                return Response({"detail": "No refresh token found."}, status=status.HTTP_400_BAD_REQUEST)
-
-            # Tokenni obyektga aylantirish
-            token = RefreshToken(refresh_token)
-            # Blacklistga qo‘shish (bu tokenni yaroqsiz qiladi)
-            token.blacklist()
-
-        except Exception as e:
-            print(f"Error blacklisting token: {e}")
-            return Response({"detail": "Token blacklisting failed."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Foydalanuvchini Django sessiyasidan chiqazish
         logout(request)
-
-        # Javobni qaytarish va cookie’ni o‘chirish
         response = Response({"detail": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
-        response.delete_cookie('refresh_token')  # Clientdan refresh token cookie’sini o‘chiradi
         return response

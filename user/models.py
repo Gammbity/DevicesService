@@ -57,3 +57,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         indexes = [
             models.Index(fields=['email'], name='user_email_idx'),
         ]
+
+class TokenVerify(models.Model):
+    token = models.CharField(max_length=255, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.token}"
+    
+    class Meta:
+        verbose_name = _("token verify")
+        verbose_name_plural = _("token verifies")
+        ordering = ['-created_at']
+        db_table = 'token_verify'

@@ -1,3 +1,4 @@
+import json
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
@@ -45,7 +46,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     """
     Serializer for user registration.
     """
-    email = serializers.EmailField(write_only=True, required=True, error_messages={
+    email = serializers.EmailField(required=True, error_messages={
         'required': _('Email is required.')
     })
     
@@ -57,9 +58,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         }
     
     def create(self, validated_data):
-        user = User(
-            email=validated_data['email']
-        )
-        user.save()
+        user = User.objects.create(email=validated_data['email'])
         return user
 

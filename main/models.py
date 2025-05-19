@@ -26,6 +26,15 @@ class Device(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Device Name"))
     description = models.TextField(verbose_name=_("Device Description"))
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Service Price"))
+    location = models.CharField(max_length=255, verbose_name=_("Device Location"))
+    status = models.CharField(max_length=50, choices=[
+        ("created", _("Created")),
+        ("approved", _("Approved")),
+        ("in_progress", _("In Progress")),
+        ("completed", _("Completed")),
+        ("cancelled", _("Cancelled")),
+    ], default="created", verbose_name=_("Device Status"))
+    end_time = models.DateTimeField(verbose_name=_("End Time"), null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 
