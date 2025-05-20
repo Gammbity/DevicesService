@@ -9,6 +9,7 @@ def generate_token(email):
 
 @shared_task
 def send_welcome_email(to_email):
+    print(to_email)
     link = f"http://127.0.1:8000/api/v1/user/verify/{generate_token(to_email['email'])}"
     from_email = "abduboriyabdusamadov66@gmail.com"
     email = to_email['email']

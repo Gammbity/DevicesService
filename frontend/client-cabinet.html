@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Cabinet - TechFix</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cabinet.css">
+    <link rel="stylesheet" href="css/notification.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Notification container -->
+    <div id="notification-container"></div>
+    
+    <div class="cabinet-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo.png" alt="TechFix Logo" class="logo">
+                <h2>Client Cabinet</h2>
+            </div>
+            <div class="sidebar-nav">
+                <ul>
+                    <li id="dashboard-link" class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li id="submit-application-link"><a href="#"><i class="fas fa-plus-circle"></i> Submit Application</a></li>
+                    <li id="my-applications-link"><a href="#"><i class="fas fa-clipboard-list"></i> My Applications</a></li>
+                    <li id="messages-link"><a href="#"><i class="fas fa-envelope"></i> Messages <span id="unread-count" class="badge">0</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="cabinet-header">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-email">client@example.com</span>
+                </div>
+                <div class="header-actions">
+                    <div class="notification-dropdown">
+                        <button class="notification-btn">
+                            <i class="fas fa-bell"></i>
+                            <span id="notification-count" class="badge">0</span>
+                        </button>
+                        <div class="notification-content">
+                            <div id="notifications-container" class="notifications-container">
+                                <div class="no-notifications">
+                                    <i class="fas fa-bell-slash"></i>
+                                    <p>No new notifications</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div id="dashboard-content" class="content-section active">
+                <h2>Dashboard</h2>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Applications</h3>
+                            <p id="total-applications">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-spinner"></i></div>
+                        <div class="stat-info">
+                            <h3>In Progress</h3>
+                            <p id="in-progress">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>Completed</h3>
+                            <p id="completed">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-applications">
+                    <h3>Recent Applications</h3>
+                    <div id="recent-applications-container" class="applications-container">
+                        <div class="no-applications-message">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>No applications found. Submit your first application!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button id="new-application-btn" class="btn primary-btn"><i class="fas fa-plus-circle"></i> New Application</button>
+                        <button id="view-applications-btn" class="btn primary-btn"><i class="fas fa-clipboard-list"></i> View Applications</button>
+                        <button id="view-messages-btn" class="btn primary-btn"><i class="fas fa-envelope"></i> View Messages</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Application Content -->
+            <div id="submit-application-content" class="content-section">
+                <h2>Submit Application</h2>
+                <form id="application-form" class="form-container">
+                    <div class="form-group">
+                        <label for="device-name">Device Name</label>
+                        <input type="text" id="device-name" placeholder="e.g. Dell XPS 15 Laptop" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="problem-type">Problem Type</label>
+                        <input type="text" id="problem-type" placeholder="e.g. Screen not working" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="issue-type">Issue Type</label>
+                        <select id="issue-type" required>
+                            <option value="">Select issue type</option>
+                            <option value="hardware">Hardware Issue</option>
+                            <option value="software">Software Issue</option>
+                            <option value="both">Hardware & Software Issue</option>
+                            <option value="not-sure">Not Sure</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" rows="4" placeholder="Please describe your issue in detail..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" placeholder="e.g. New York" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary-btn">Submit Application</button>
+                        <button type="button" id="cancel-application-btn" class="btn secondary-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- My Applications Content -->
+            <div id="my-applications-content" class="content-section">
+                <h2>My Applications</h2>
+                <div class="filter-container">
+                    <div class="search-container">
+                        <input type="text" id="search-applications" placeholder="Search applications...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-dropdown">
+                        <label for="status-filter">Status:</label>
+                        <select id="status-filter">
+                            <option value="all">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="applications-container" class="applications-container">
+                    <div class="no-applications-message">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>No applications found. Submit your first application!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Content -->
+            <div id="messages-content" class="content-section">
+                <h2>Messages</h2>
+                <div id="messages-container" class="messages-container">
+                    <div class="no-messages-message">
+                        <i class="fas fa-envelope-open"></i>
+                        <p>No messages found.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="message-modal-subject">Message Subject</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="message-details">
+                    <p><strong>From:</strong> <span id="message-modal-sender"></span></p>
+                    <p><strong>Date:</strong> <span id="message-modal-date"></span></p>
+                </div>
+                <div class="message-content">
+                    <p id="message-modal-content"></p>
+                </div>
+                <div class="modal-actions">
+                    <button id="message-modal-reply" class="btn primary-btn">Reply</button>
+                    <button id="message-modal-close" class="btn secondary-btn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/notification.js"></script>
+    <script src="./js/client-cabinet.js"></script>
+</body>
+</html>

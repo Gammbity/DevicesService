@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Cabinet - TechFix</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/manager.css">
+    <link rel="stylesheet" href="css/notification.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Notification container -->
+    <div id="notification-container"></div>
+    
+    <div class="cabinet-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo.png" alt="TechFix Logo" class="logo">
+                <h2>Manager Panel</h2>
+            </div>
+            <div class="sidebar-nav">
+                <ul>
+                    <li id="dashboard-link" class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li id="applications-link"><a href="#"><i class="fas fa-clipboard-list"></i> Applications</a></li>
+                    <li id="add-service-link"><a href="#"><i class="fas fa-plus-circle"></i> Add Service</a></li>
+                    <li id="products-link"><a href="#"><i class="fas fa-box"></i> Products</a></li>
+                    <li id="statistics-link"><a href="#"><i class="fas fa-chart-bar"></i> Statistics</a></li>
+                    <li id="messages-link"><a href="#"><i class="fas fa-envelope"></i> Messages</a></li>
+                    <li id="settings-link"><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="cabinet-header">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-email">manager@example.com</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div id="dashboard-content" class="content-section active">
+                <h2>Dashboard</h2>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Applications</h3>
+                            <p id="total-applications">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-spinner"></i></div>
+                        <div class="stat-info">
+                            <h3>In Progress</h3>
+                            <p id="in-progress">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>Completed</h3>
+                            <p id="completed">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-box"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Products</h3>
+                            <p id="total-products">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-container">
+                        <h3>Applications by Location</h3>
+                        <canvas id="location-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Applications by Status</h3>
+                        <canvas id="status-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button id="view-applications-btn" class="btn primary-btn"><i class="fas fa-clipboard-list"></i> View Applications</button>
+                        <button id="add-service-btn" class="btn primary-btn"><i class="fas fa-plus-circle"></i> Add Service</button>
+                        <button id="view-products-btn" class="btn primary-btn"><i class="fas fa-box"></i> View Products</button>
+                        <button id="view-statistics-btn" class="btn primary-btn"><i class="fas fa-chart-bar"></i> View Statistics</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications Content -->
+            <div id="applications-content" class="content-section">
+                <h2>Applications</h2>
+                <div class="filter-container">
+                    <div class="search-container">
+                        <input type="text" id="search-applications" placeholder="Search applications...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-dropdown">
+                        <label for="status-filter">Status:</label>
+                        <select id="status-filter">
+                            <option value="all">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="applications-container" class="applications-container">
+                    <div id="no-applications-message" class="no-data-message">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>No applications found.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Service Content -->
+            <div id="add-service-content" class="content-section">
+                <h2>Add Service</h2>
+                <form id="service-form" class="form-container">
+                    <div class="form-group">
+                        <label for="service-name">Service Name</label>
+                        <input type="text" id="service-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-category">Category</label>
+                        <select id="service-category" required>
+                            <option value="">Select a category</option>
+                            <option value="hardware">Hardware Repair</option>
+                            <option value="software">Software Support</option>
+                            <option value="network">Network Setup</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-description">Description</label>
+                        <textarea id="service-description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-price">Price ($)</label>
+                        <input type="number" id="service-price" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-duration">Estimated Duration (hours)</label>
+                        <input type="number" id="service-duration" min="0" step="0.5" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary-btn">Add Service</button>
+                        <button type="button" id="cancel-service-btn" class="btn secondary-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Products Content -->
+            <div id="products-content" class="content-section">
+                <h2>Products</h2>
+                <div class="filter-container">
+                    <div class="search-container">
+                        <input type="text" id="search-products" placeholder="Search products...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-dropdown">
+                        <label for="category-filter">Category:</label>
+                        <select id="category-filter">
+                            <option value="all">All</option>
+                            <option value="Storage">Storage</option>
+                            <option value="Display">Display</option>
+                            <option value="Memory">Memory</option>
+                            <option value="CPU">CPU</option>
+                            <option value="GPU">GPU</option>
+                            <option value="Peripherals">Peripherals</option>
+                            <option value="Batteries">Batteries</option>
+                        </select>
+                    </div>
+                    <button id="add-product-btn" class="btn primary-btn"><i class="fas fa-plus"></i> Add Product</button>
+                </div>
+                <div id="products-container" class="products-container">
+                    <!-- Products will be added here dynamically -->
+                </div>
+            </div>
+
+            <!-- Statistics Content -->
+            <div id="statistics-content" class="content-section">
+                <h2>Statistics</h2>
+                <div class="statistics-summary">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Applications</h3>
+                            <p id="stats-total-applications">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar-week"></i></div>
+                        <div class="stat-info">
+                            <h3>Last 7 Days</h3>
+                            <p id="stats-recent-applications">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-box"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Products</h3>
+                            <p id="stats-total-products">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistics-charts">
+                    <div class="chart-container">
+                        <h3>Applications by Location</h3>
+                        <canvas id="stats-location-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Applications by Status</h3>
+                        <canvas id="stats-status-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Applications by Issue Type</h3>
+                        <canvas id="stats-issue-type-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Content -->
+            <div id="messages-content" class="content-section">
+                <h2>Messages</h2>
+                <div class="messages-container">
+                    <div class="send-message-form">
+                        <h3>Send Message</h3>
+                        <form id="send-message-form">
+                            <div class="form-group">
+                                <label for="message-recipient">Recipient Email</label>
+                                <input type="email" id="message-recipient" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-subject">Subject</label>
+                                <input type="text" id="message-subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-content">Message</label>
+                                <textarea id="message-content" rows="4" required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn primary-btn">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Content -->
+            <div id="settings-content" class="content-section">
+                <h2>Settings</h2>
+                <div class="settings-container">
+                    <div class="form-container">
+                        <h3>Change Password</h3>
+                        <form id="change-password-form">
+                            <div class="form-group">
+                                <label for="current-password">Current Password</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                <input type="password" id="new-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password</label>
+                                <input type="password" id="confirm-password" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn primary-btn">Change Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Application Modal -->
+    <div id="edit-application-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Application</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="edit-application-form">
+                    <input type="hidden" id="edit-application-id">
+                    <div class="form-group">
+                        <label for="edit-device-name">Device Name</label>
+                        <input type="text" id="edit-device-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-problem-type">Problem Type</label>
+                        <input type="text" id="edit-problem-type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-issue-type">Issue Type</label>
+                        <select id="edit-issue-type" required>
+                            <option value="hardware">Hardware Issue</option>
+                            <option value="software">Software Issue</option>
+                            <option value="both">Hardware & Software Issue</option>
+                            <option value="not-sure">Not Specified</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-description">Description</label>
+                        <textarea id="edit-description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-location">Location</label>
+                        <input type="text" id="edit-location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-status">Status</label>
+                        <select id="edit-status" required>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div id="rejection-reason-group" class="form-group" style="display: none;">
+                        <label for="rejection-reason">Rejection Reason</label>
+                        <textarea id="rejection-reason" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary-btn">Save Changes</button>
+                        <button type="button" id="cancel-edit-btn" class="btn secondary-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="add-product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Product</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-product-form">
+                    <div class="form-group">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Category</label>
+                        <select id="product-category" required>
+                            <option value="">Select a category</option>
+                            <option value="Storage">Storage</option>
+                            <option value="Display">Display</option>
+                            <option value="Memory">Memory</option>
+                            <option value="CPU">CPU</option>
+                            <option value="GPU">GPU</option>
+                            <option value="Peripherals">Peripherals</option>
+                            <option value="Batteries">Batteries</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Price ($)</label>
+                        <input type="number" id="product-price" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-stock">Stock</label>
+                        <input type="number" id="product-stock" min="0" step="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Image URL</label>
+                        <input type="url" id="product-image" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary-btn">Add Product</button>
+                        <button type="button" id="cancel-product-btn" class="btn secondary-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Product Modal -->
+    <div id="edit-product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Product</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="edit-product-form">
+                    <input type="hidden" id="edit-product-id">
+                    <div class="form-group">
+                        <label for="edit-product-name">Product Name</label>
+                        <input type="text" id="edit-product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-category">Category</label>
+                        <select id="edit-product-category" required>
+                            <option value="">Select a category</option>
+                            <option value="Storage">Storage</option>
+                            <option value="Display">Display</option>
+                            <option value="Memory">Memory</option>
+                            <option value="CPU">CPU</option>
+                            <option value="GPU">GPU</option>
+                            <option value="Peripherals">Peripherals</option>
+                            <option value="Batteries">Batteries</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-description">Description</label>
+                        <textarea id="edit-product-description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-price">Price ($)</label>
+                        <input type="number" id="edit-product-price" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-stock">Stock</label>
+                        <input type="number" id="edit-product-stock" min="0" step="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-image">Image URL</label>
+                        <input type="url" id="edit-product-image" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary-btn">Save Changes</button>
+                        <button type="button" id="cancel-edit-product-btn" class="btn secondary-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirmation-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Deletion</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this product?</p>
+                <input type="hidden" id="delete-product-id">
+                <div class="form-actions">
+                    <button id="confirm-delete-btn" class="btn danger-btn">Delete</button>
+                    <button id="cancel-delete-btn" class="btn secondary-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/notification.js"></script>
+    <script src="./js/manager-cabinet.js"></script>
+    <script src="./js/chart.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+/* Notification Styles */
+#notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  width: 300px;
+}
+
+.notification {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out forwards;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.notification.success {
+  border-left: 4px solid #2ecc71;
+}
+
+.notification.error {
+  border-left: 4px solid #e74c3c;
+}
+
+.notification.info {
+  border-left: 4px solid #3498db;
+}
+
+.notification.warning {
+  border-left: 4px solid #f39c12;
+}
+
+.notification-icon {
+  margin-right: 15px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notification.success .notification-icon {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.notification.error .notification-icon {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.notification.info .notification-icon {
+  background-color: #3498db;
+  color: white;
+}
+
+.notification.warning .notification-icon {
+  background-color: #f39c12;
+  color: white;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  margin: 0 0 5px;
+  color: #2c3e50;
+}
+
+.notification-message {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: #95a5a6;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.notification-close:hover {
+  color: #7f8c8d;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.notification.closing {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+/* Checkmark animation */
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: white;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #2ecc71;
+  animation: fill 0.4s ease-in-out forwards;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: white;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #2ecc71;
+  }
+}

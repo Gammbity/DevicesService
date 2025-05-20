@@ -58,6 +58,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         }
     
     def create(self, validated_data):
-        user = User.objects.create(email=validated_data['email'])
+        user, created = User.objects.get_or_create(email=validated_data['email'])
         return user
 
