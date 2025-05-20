@@ -22,18 +22,19 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('i18n/setlang/', set_language, name='set_language'),
+   path('admin/', admin.site.urls),
+   path('api-auth/', include('rest_framework.urls')),
+   path('i18n/setlang/', set_language, name='set_language'),
 
     # APP
-    path('api/v1/user/', include('user.urls')),
-    path('api/v1/main/', include('main.urls')),
+   path('api/v1/user/', include('user.urls')),
+   path('api/v1/main/', include('main.urls')),
 
     # SWAGGER DOCS
 
-    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+   path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+   path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+   path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

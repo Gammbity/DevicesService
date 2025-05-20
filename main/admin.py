@@ -2,6 +2,22 @@ from django.contrib import admin
 
 from . import models
 
+@admin.register(models.Device)
+class DeviceAdmin(admin.ModelAdmin):
+    list_display = ("name", "description", "price", "status", "end_time", "created_at", "updated_at")
+    search_fields = ("name",)
+    list_filter = ("status", "created_at")
+    ordering = ("-created_at",)
+    date_hierarchy = "created_at"
+    list_per_page = 20
+    list_display_links = ("name",)
+    fieldsets = (
+        (None, {"fields": ("name", "description")}),
+        ("Price and Status", {"fields": ("price", "status")}),
+        ("Timestamps", {"fields": ("created_at", "updated_at")}),
+    )
+    readonly_fields = ("created_at", "updated_at")
+
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "price", "count", "created_at", "updated_at")

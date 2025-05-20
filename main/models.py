@@ -25,7 +25,7 @@ class Device(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="devices", verbose_name=_("User"))
     name = models.CharField(max_length=255, verbose_name=_("Device Name"))
     description = models.TextField(verbose_name=_("Device Description"))
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Service Price"))
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Service Price"), null=True, blank=True)
     location = models.CharField(max_length=255, verbose_name=_("Device Location"))
     status = models.CharField(max_length=50, choices=[
         ("created", _("Created")),
