@@ -16,33 +16,27 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'email': {'read_only': True},
         }
-        
+
 class LoginSerializer(serializers.Serializer):
-    """
-    Serializer for user login.
-    """
-    email = serializers.EmailField(required=True, error_messages={
-        'required': _('Email is required.'),
-        'invalid': _('Enter a valid email address.')
-    })
-    password = serializers.CharField(required=True, write_only=True, error_messages={
-        'required': _('Password is required.')
-    })
-    
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
     def validate(self, attrs):
         email = attrs.get('email')
         password = attrs.get('password')
-        
-        if not User.objects.filter(email=email).exists():
-            raise serializers.ValidationError(_('User with this email does not exist.'))
-        
-        user = User.objects.get(email=email)
-            
-        if not user.check_password(password) or not user.is_staff:
-            raise serializers.ValidationError(_('Incorrect password.'))
-        return user
-    
-    
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError('User not found.')
+
+        if not user.check_password(password):
+            raise serializers.ValidationError('Incorrect password.')
+
+        attrs['user'] = user
+        return attrs
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     """
     Serializer for user registration.

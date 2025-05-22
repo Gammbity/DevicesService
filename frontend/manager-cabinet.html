@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Master Panel</title>
+  <title>Usta Paneli</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen flex">
 
-  <!-- Main Content -->
+  <!-- Kontent -->
   <div class="flex-1 p-4 md:p-8">
     <div class="mb-8">
-      <h1 class="text-2xl font-bold mb-1">Salom, Master!</h1>
+      <h1 class="text-2xl font-bold mb-1">Assalomu alaykum, Usta!</h1>
       <p class="text-gray-500">Boshqaruv paneliga xush kelibsiz</p>
     </div>
 
-    <!-- Stats Cards -->
+    <!-- Statistika -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       <div class="bg-white p-4 rounded shadow">
-        <p class="text-sm text-gray-500">Jami murojatlar</p>
+        <p class="text-sm text-gray-500">Jami murojaatlar</p>
         <h2 class="text-2xl font-bold" id="all_requests">0</h2>
       </div>
       <div class="bg-white p-4 rounded shadow">
-        <p class="text-sm text-gray-500">Yangi murojatlar</p>
+        <p class="text-sm text-gray-500">Yangi murojaatlar</p>
         <h2 class="text-2xl font-bold" id="new_murojatlar">0</h2>
       </div>
       <div class="bg-white p-4 rounded shadow">
@@ -31,35 +31,35 @@
       </div>
     </div>
 
-    <!-- Tabs -->
+    <!-- Tablar -->
     <div class="mb-4">
       <div class="flex gap-2 border-b">
-        <button class="tab-btn px-4 py-2 border-b-2 text-gray-600" data-tab="tab1">Murojatlar</button>
+        <button class="tab-btn px-4 py-2 border-b-2 text-gray-600" data-tab="tab1">Murojaatlar</button>
         <button class="tab-btn px-4 py-2 border-b-2 text-gray-600" data-tab="tab2">Mahsulotlar</button>
       </div>
 
-      <!-- Murojatlar -->
+      <!-- Murojaatlar -->
       <div id="tab1" class="tab-content hidden mt-4">
         <div class="bg-white p-4 rounded shadow">
           <div class="flex justify-between mb-4">
             <input id="searchInput" type="text" placeholder="Qidirish..." class="border rounded px-3 py-2 w-1/3">
             <select id="statusFilter" class="border rounded px-3 py-2">
-              <option value="">All</option>
-              <option value="Created">Created</option>
-              <option value="Approved">Approved</option>
-              <option value="In_Progress">In Progress</option>
-              <option value="Completed">Completed</option>
+              <option value="">Barchasi</option>
+              <option value="Created">Yaratilgan</option>
+              <option value="Approved">Tasdiqlangan</option>
+              <option value="In_Progress">Jarayonda</option>
+              <option value="Completed">Yakunlangan</option>
             </select>
           </div>
           <table class="w-full table-auto text-sm">
             <thead>
               <tr class="text-left border-b">
                 <th class="py-2">ID</th>
-                <th>Mavzu</th>
+                <th>Qurilma</th>
                 <th>Mijoz</th>
                 <th>Sana</th>
-                <th>Status</th>
-                <th class="text-right">Amallar</th>
+                <th>Holat</th>
+                <th class="text-right">Amal</th>
               </tr>
             </thead>
             <tbody id="murojatlar-table-body">
@@ -72,13 +72,13 @@
       <!-- Mahsulotlar -->
       <div id="tab2" class="tab-content hidden mt-4">
         <div class="bg-white p-4 rounded shadow overflow-x-auto">
-          <h2 class="text-xl font-semibold mb-4">Mahsulotlar ro'yxati</h2>
+          <h2 class="text-xl font-semibold mb-4">Mahsulotlar ro‘yxati</h2>
           <table class="min-w-full text-sm border border-gray-200">
             <thead class="bg-gray-100 text-left">
               <tr>
                 <th class="px-4 py-2 border">#</th>
                 <th class="px-4 py-2 border">Nomi</th>
-                <th class="px-4 py-2 border">Tavsifi</th>
+                <th class="px-4 py-2 border">Tavsif</th>
                 <th class="px-4 py-2 border">Narxi</th>
                 <th class="px-4 py-2 border">Soni</th>
                 <th class="px-4 py-2 border">Yaratilgan</th>
@@ -93,222 +93,29 @@
     </div>
   </div>
 
-<!-- Edit Modal -->
-<div id="editModal" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center hidden z-50">
-  <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-    <h3 class="text-lg font-semibold mb-4">Tahrirlash</h3>
-    <form id="editForm" class="space-y-4">
-      <input type="hidden" id="edit-id" />
-      <div>
-        <label class="block text-sm font-medium">Yakunlash vaqti:</label>
-        <input type="datetime-local" id="edit-end-time" class="border px-3 py-2 rounded w-full" required />
-      </div>
-      <div>
-        <label class="block text-sm font-medium">Narxi (UZS):</label>
-        <input type="number" id="edit-price" class="border px-3 py-2 rounded w-full" required />
-      </div>
-      <!-- Status maydoni yo'q, avtomatik "Approved" bo'ladi -->
-      <div class="flex justify-end gap-2">
-        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded">Bekor qilish</button>
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Saqlash</button>
-      </div>
-    </form>
+  <!-- Tahrirlash oynasi -->
+  <div id="editModal" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+      <h3 class="text-lg font-semibold mb-4">Tahrirlash</h3>
+      <form id="editForm" class="space-y-4">
+        <input type="hidden" id="edit-id" />
+        <div>
+          <label class="block text-sm font-medium">Yakunlash vaqti:</label>
+          <input type="datetime-local" id="edit-end-time" class="border px-3 py-2 rounded w-full" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Narxi (UZS):</label>
+          <input type="number" id="edit-price" class="border px-3 py-2 rounded w-full" required />
+        </div>
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded">Bekor qilish</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Saqlash</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
-  <script>
-    const buttons = document.querySelectorAll('.tab-btn');
-    const contents = document.querySelectorAll('.tab-content');
-    const murojatlar = document.getElementById('all_requests');
-    const new_murojatlar = document.getElementById('new_murojatlar');
-    const all_products = document.getElementById('all_products');
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('border-blue-500', 'text-blue-600'));
-        contents.forEach(c => c.classList.add('hidden'));
-        document.getElementById(btn.dataset.tab).classList.remove('hidden');
-        btn.classList.add('border-blue-500', 'text-blue-600');
-      });
-    });
-
-    function renderStatus(status) {
-      const map = {
-        created: 'bg-gray-500',
-        approved: 'bg-blue-500',
-        in_progress: 'bg-yellow-500',
-        completed: 'bg-green-500'
-      };
-      return `<span class="px-2 py-1 rounded text-white text-xs ${map[status.toLowerCase()] || 'bg-gray-400'}">${status}</span>`;
-    }
-
-    function loadMahsulotlar() {
-      fetch("http://127.0.0.1:8000/api/v1/main/products/", { credentials: "include" })
-        .then(res => res.json())
-        .then(data => {
-          const tbody = document.getElementById("products-table-body");
-          tbody.innerHTML = "";
-          all_products.innerText = data.length;
-          data.forEach((product, index) => {
-            const tr = document.createElement("tr");
-            tr.className = "hover:bg-gray-50";
-            tr.innerHTML = `
-              <td class="px-4 py-2 border">${index + 1}</td>
-              <td class="px-4 py-2 border">${product.name}</td>
-              <td class="px-4 py-2 border">${product.description}</td>
-              <td class="px-4 py-2 border">${product.price}</td>
-              <td class="px-4 py-2 border">${product.count}</td>
-              <td class="px-4 py-2 border">${new Date(product.created_at).toLocaleDateString()}</td>
-            `;
-            tbody.appendChild(tr);
-          });
-        });
-    }
-
-    function openEditModal(id, status, end_time, price) {
-      document.getElementById("edit-id").value = id;
-      document.getElementById("edit-status").value = "Approved";
-      document.getElementById("edit-end-time").value = end_time ? new Date(end_time).toISOString().slice(0, 16) : '';
-      document.getElementById("edit-price").value = price || '';
-      document.getElementById("editModal").classList.remove("hidden");
-    }
-
-  function openEditModal(id, status, end_time, price) {
-    document.getElementById("edit-id").value = id;
-    document.getElementById("edit-end-time").value = end_time ? new Date(end_time).toISOString().slice(0, 16) : '';
-    document.getElementById("edit-price").value = price || '';
-    document.getElementById("editModal").classList.remove("hidden");
-  }
-
-  function closeModal() {
-    document.getElementById("editModal").classList.add("hidden");
-  }
-
-  document.getElementById("editForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const id = document.getElementById("edit-id").value;
-    const end_time = document.getElementById("edit-end-time").value;
-    const price = document.getElementById("edit-price").value;
-    const status = "Approved";
-
-    function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          if (cookie.startsWith(name + "=")) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-    // Get CSRF token
-    const csrftoken = getCookie("csrftoken");
-    fetch(`http://127.0.0.1:8000/api/v1/main/devices/master/${id}/`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" ,"X-CSRFToken": csrftoken},
-
-      body: JSON.stringify({ status, end_time, price })
-    })
-    .then(res => {
-      if (!res.ok) throw new Error("Serverda xatolik");
-      return res.json();
-    })
-    .then(() => {
-      closeModal();
-      loadMurojatlar();
-    })
-    .catch(err => console.error("Xatolik:", err));
-  });
-
-  function loadMurojatlar() {
-    fetch("http://127.0.0.1:8000/api/v1/main/devices/master/", { credentials: "include" })
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.getElementById("murojatlar-table-body");
-        const searchInput = document.getElementById("searchInput").value.toLowerCase();
-        const filterStatus = document.getElementById("statusFilter").value.toLowerCase();
-
-        tbody.innerHTML = "";
-        murojatlar.innerText = data.length;
-        new_murojatlar.innerText = data.filter(item => item.status === "Created").length;
-
-        const filtered = data.filter(item => {
-          const matchStatus = filterStatus ? item.status.toLowerCase() === filterStatus : true;
-          const matchSearch = item.name.toLowerCase().includes(searchInput) || item.user.email.toLowerCase().includes(searchInput);
-          return matchStatus && matchSearch;
-        });
-
-        if (filtered.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" class="text-center text-gray-500 p-4">Hech narsa topilmadi.</td></tr>`;
-          return;
-        }
-
-        filtered.forEach(device => {
-          const tr = document.createElement("tr");
-          tr.className = "hover:bg-gray-50";
-          tr.innerHTML = `
-            <td class="py-2">${device.id}</td>
-            <td>${device.name}</td>
-            <td>${device.user.email || "-"}</td>
-            <td>${new Date(device.created_at).toLocaleDateString()}</td>
-            <td>${renderStatus(device.status)}</td>
-            <td class="text-right">
-              <button class="text-blue-600 text-xs" onclick="openEditModal(${device.id}, '${device.status}', '${device.end_time || ""}', '${device.price || ""}')">Tahrirlash</button>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-      });
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    loadMahsulotlar();
-    loadMurojatlar();
-    document.getElementById("searchInput").addEventListener("input", loadMurojatlar);
-    document.getElementById("statusFilter").addEventListener("change", loadMurojatlar);
-  });
-
-  function loadDevices() {
-    fetch("http://127.0.0.1:8000/api/v1/main/devices/master/", {
-      credentials: "include"
-    })
-    .then(res => res.json())
-    .then(data => {
-      const tbody = document.getElementById("murojatlar-table-body");
-      tbody.innerHTML = "";
-      murojatlar.innerText = data.length;
-      const newOnes = data.filter(d => d.status === "Created");
-      new_murojatlar.innerText = newOnes.length;
-
-      data.forEach(device => {
-        const tr = document.createElement("tr");
-        tr.className = "hover:bg-gray-50";
-        tr.innerHTML = `
-          <td class="py-2">${device.id}</td>
-          <td>${device.name}</td>
-          <td>${device.user.email || "-"}</td>
-          <td>${new Date(device.created_at).toLocaleDateString()}</td>
-          <td>${renderStatus(device.status)}</td>
-          <td class="text-right">
-            <button onclick="openEditModal(${device.id}, '${device.status}', '${device.end_time || ""}', '${device.price || ""}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm">Edit</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    });
-  }
-
-  // Ilovani yuklaganda
-  window.addEventListener("DOMContentLoaded", () => {
-    loadDevices();
-    loadMahsulotlar();
-    buttons[0].click(); // Default active tab
-  });
-</script>
-
- 
+  <script src="./js/notification.js"></script>
+  <script src="js/manager-cabinet.js"></script>
+</body>
+</html>

@@ -13,10 +13,10 @@ class DeviceAdmin(admin.ModelAdmin):
     list_display_links = ("name",)
     fieldsets = (
         (None, {"fields": ("name", "description", "user")}),
-        ("Price and Status", {"fields": ("price", "status")}),
+        ("Price and Status", {"fields": ("price", "status", "location")}),
         ("Timestamps", {"fields": ("created_at", "updated_at", "end_time")}),
     )
-    readonly_fields = ("created_at", "updated_at", "end_time")
+    readonly_fields = ("created_at", "updated_at")
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):

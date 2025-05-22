@@ -1,6 +1,5 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-#     View for user profile.
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
@@ -31,7 +30,7 @@ class DeviceListView(generics.ListAPIView):
             return self.queryset.filter(user=user)
         return self.queryset.none()
 
-class DeviceDetailView(generics.RetrieveUpdateDestroyAPIView):
+class DeviceDetailView(generics.RetrieveUpdateAPIView):
     queryset = models.Device.objects.all()
     serializer_class = serializers.DeviceSerializer
 

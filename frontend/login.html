@@ -1,49 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - TechFix</title>
+    <title>Kirish - TechFix</title>
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/login.css">
     <link rel="stylesheet" href="./css/notification.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <!-- Notification container -->
+    <!-- Bildirishnomalar konteyneri -->
     <div id="notification-container"></div>
     
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <img src="img/logo.png" alt="TechFix Logo" class="logo">
+                <img src="img/logo.png" alt="TechFix logotipi" class="logo">
                 <h1>TechFix</h1>
-                <p>Computer Repair Service</p>
+                <p>Kompyuter ta’mirlash xizmati</p>
             </div>
             
             <div class="login-tabs">
-                <button id="client-tab" class="tab-btn active">Client</button>
-                <button id="manager-tab" class="tab-btn">Manager</button>
+                <button id="client-tab" class="tab-btn active">Mijoz</button>
+                <button id="manager-tab" class="tab-btn">Usta</button>
             </div>
             
             <div id="client-login" class="login-form active">
-                <h2>Client Login</h2>
-                <p>Enter your email to receive a login link</p>
+                <h2>Mijoz kirishi</h2>
+                <p>Kirish havolasini olish uchun emailingizni kiriting</p>
                 <form id="client-login-form">
                     <div class="form-group">
                         <label for="client-email">Email</label>
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" id="client-email" placeholder="your@email.com" required>
+                            <input type="email" id="client-email" placeholder="sizning@email.com" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn primary-btn">Send Login Link</button>
+                    <button type="submit" class="btn primary-btn">Kirish havolasini yuborish</button>
                 </form>
             </div>
             
             <div id="manager-login" class="login-form">
-                <h2>Manager Login</h2>
-                <p>Enter your credentials to login</p>
+                <h2>Usta kirishi</h2>
+                <p>Kirish uchun ma’lumotlaringizni kiriting</p>
                 <form id="manager-login-form">
                     <div class="form-group">
                         <label for="manager-email">Email</label>
@@ -53,19 +53,19 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="manager-password">Password</label>
+                        <label for="manager-password">Parol</label>
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
                             <input type="password" id="manager-password" placeholder="••••••••" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn primary-btn">Login</button>
+                    <button type="submit" class="btn primary-btn">Kirish</button>
                 </form>
             </div>
             
             <div class="login-footer">
-                <p>Need help? <a href="#">Contact Support</a></p>
-                <p>&copy; 2023 TechFix. All rights reserved.</p>
+                <p>Yordam kerakmi? <a href="#">Qo‘llab-quvvatlash bilan bog‘laning</a></p>
+                <p>&copy; 2023 TechFix. Barcha huquqlar himoyalangan.</p>
             </div>
         </div>
     </div>

@@ -23,23 +23,27 @@ def decode_token(token):
     except signing.BadSignature:
         return "Token noto‘g‘ri"
 
+from django.contrib.auth import login, logout
+
 class LoginView(generics.GenericAPIView):
-    """
-    View for user login.
-    """
-    queryset = models.User.objects.all()
     serializer_class = serializers.LoginSerializer
     permission_classes = [AllowAny]
-    
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data
+
+        user = serializer.validated_data['user']
+
+        # Avval logout qilamiz
+        logout(request)
+
+        # Login qilamiz
         login(request, user)
-        return Response({
-            "detail": _("Login successful."),
-            "email": user.email
-        }, status=status.HTTP_200_OK)
+        return Response({"detail": "Login successful", "email": user.email})
+
+
+
     
 class RegisterView(generics.GenericAPIView):
     """

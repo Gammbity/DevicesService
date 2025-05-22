@@ -117,12 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch("http://127.0.0.1:8000/api/v1/user/master/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken,},
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
       const result = await response.json();
       console.log(result);
-      if (result.detail === "Login successful.") {
+      if (result.detail === "Login successful") {
         // Store token and user data
         localStorage.setItem("authToken", result.token);
         // localStorage.setItem("userRole", result.manager.role);
