@@ -1,8 +1,8 @@
 from rest_framework import generics
-
+from rest_framework.permissions import IsAuthenticated
+#     View for user profile.
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
 
 from . import serializers
 from . import models
@@ -19,6 +19,7 @@ class ProductListView(generics.ListAPIView):
 class DeviceCreateView(generics.CreateAPIView):
     queryset = models.Device.objects.all()
     serializer_class = serializers.DeviceSerializer
+    permission_classes = [IsAuthenticated]
 
 class DeviceListView(generics.ListAPIView):
     queryset = models.Device.objects.all()

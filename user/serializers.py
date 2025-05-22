@@ -2,6 +2,7 @@ import json
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from rest_framework import permissions
 
 User = get_user_model()
 
@@ -36,8 +37,8 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError(_('User with this email does not exist.'))
         
         user = User.objects.get(email=email)
-        
-        if not user.check_password(password):
+            
+        if not user.check_password(password) or not user.is_staff:
             raise serializers.ValidationError(_('Incorrect password.'))
         return user
     
@@ -59,7 +60,5 @@ class RegisterSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         user, created = User.objects.get_or_create(email=validated_data['email'])
-        print(user, 1)
-        print(created, 2)
         return user
 

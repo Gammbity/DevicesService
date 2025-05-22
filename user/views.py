@@ -23,7 +23,6 @@ def decode_token(token):
     except signing.BadSignature:
         return "Token noto‘g‘ri"
 
-
 class LoginView(generics.GenericAPIView):
     """
     View for user login.
@@ -86,10 +85,11 @@ def token_verify(request, token):
     if not models.User.objects.filter(email=email).exists():
         return Response({"detail": "Foydalanuvchi topilmadi"}, status=status.HTTP_404_NOT_FOUND)
     
+    request.session['email'] = email
     user = models.User.objects.get(email=email)
     login(request, user)
     models.TokenVerify.objects.create(token=token)
-    return redirect("http://127.0.0.1:8000/api/v1/user/profile")  # Redirect to the desired URL after successful login
+    return redirect("http://127.0.0.1:5500/frontend/client-cabinet.html")  # Redirect to the desired URL after successful login
 
 class LogoutView(views.APIView):
     """
@@ -98,6 +98,7 @@ class LogoutView(views.APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        request.session.flush()
         logout(request)
         response = Response({"detail": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
         return response

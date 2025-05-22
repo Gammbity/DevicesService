@@ -1,481 +1,314 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager Cabinet - TechFix</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/manager.css">
-    <link rel="stylesheet" href="css/notification.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Master Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <!-- Notification container -->
-    <div id="notification-container"></div>
-    
-    <div class="cabinet-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <img src="img/logo.png" alt="TechFix Logo" class="logo">
-                <h2>Manager Panel</h2>
-            </div>
-            <div class="sidebar-nav">
-                <ul>
-                    <li id="dashboard-link" class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li id="applications-link"><a href="#"><i class="fas fa-clipboard-list"></i> Applications</a></li>
-                    <li id="add-service-link"><a href="#"><i class="fas fa-plus-circle"></i> Add Service</a></li>
-                    <li id="products-link"><a href="#"><i class="fas fa-box"></i> Products</a></li>
-                    <li id="statistics-link"><a href="#"><i class="fas fa-chart-bar"></i> Statistics</a></li>
-                    <li id="messages-link"><a href="#"><i class="fas fa-envelope"></i> Messages</a></li>
-                    <li id="settings-link"><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-                </ul>
-            </div>
-            <div class="sidebar-footer">
-                <button id="logout-btn" class="btn secondary-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-            </div>
-        </div>
+<body class="bg-gray-50 min-h-screen flex">
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Header -->
-            <header class="cabinet-header">
-                <div class="user-info">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="user-email">manager@example.com</span>
-                </div>
-            </header>
-
-            <!-- Dashboard Content -->
-            <div id="dashboard-content" class="content-section active">
-                <h2>Dashboard</h2>
-                <div class="dashboard-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
-                        <div class="stat-info">
-                            <h3>Total Applications</h3>
-                            <p id="total-applications">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-spinner"></i></div>
-                        <div class="stat-info">
-                            <h3>In Progress</h3>
-                            <p id="in-progress">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                        <div class="stat-info">
-                            <h3>Completed</h3>
-                            <p id="completed">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-box"></i></div>
-                        <div class="stat-info">
-                            <h3>Total Products</h3>
-                            <p id="total-products">0</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-charts">
-                    <div class="chart-container">
-                        <h3>Applications by Location</h3>
-                        <canvas id="location-chart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <h3>Applications by Status</h3>
-                        <canvas id="status-chart"></canvas>
-                    </div>
-                </div>
-
-                <div class="quick-actions">
-                    <h3>Quick Actions</h3>
-                    <div class="action-buttons">
-                        <button id="view-applications-btn" class="btn primary-btn"><i class="fas fa-clipboard-list"></i> View Applications</button>
-                        <button id="add-service-btn" class="btn primary-btn"><i class="fas fa-plus-circle"></i> Add Service</button>
-                        <button id="view-products-btn" class="btn primary-btn"><i class="fas fa-box"></i> View Products</button>
-                        <button id="view-statistics-btn" class="btn primary-btn"><i class="fas fa-chart-bar"></i> View Statistics</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Applications Content -->
-            <div id="applications-content" class="content-section">
-                <h2>Applications</h2>
-                <div class="filter-container">
-                    <div class="search-container">
-                        <input type="text" id="search-applications" placeholder="Search applications...">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <div class="filter-dropdown">
-                        <label for="status-filter">Status:</label>
-                        <select id="status-filter">
-                            <option value="all">All</option>
-                            <option value="pending">Pending</option>
-                            <option value="in-progress">In Progress</option>
-                            <option value="completed">Completed</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="applications-container" class="applications-container">
-                    <div id="no-applications-message" class="no-data-message">
-                        <i class="fas fa-clipboard-list"></i>
-                        <p>No applications found.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Add Service Content -->
-            <div id="add-service-content" class="content-section">
-                <h2>Add Service</h2>
-                <form id="service-form" class="form-container">
-                    <div class="form-group">
-                        <label for="service-name">Service Name</label>
-                        <input type="text" id="service-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="service-category">Category</label>
-                        <select id="service-category" required>
-                            <option value="">Select a category</option>
-                            <option value="hardware">Hardware Repair</option>
-                            <option value="software">Software Support</option>
-                            <option value="network">Network Setup</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="service-description">Description</label>
-                        <textarea id="service-description" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="service-price">Price ($)</label>
-                        <input type="number" id="service-price" min="0" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="service-duration">Estimated Duration (hours)</label>
-                        <input type="number" id="service-duration" min="0" step="0.5" required>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn primary-btn">Add Service</button>
-                        <button type="button" id="cancel-service-btn" class="btn secondary-btn">Cancel</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Products Content -->
-            <div id="products-content" class="content-section">
-                <h2>Products</h2>
-                <div class="filter-container">
-                    <div class="search-container">
-                        <input type="text" id="search-products" placeholder="Search products...">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <div class="filter-dropdown">
-                        <label for="category-filter">Category:</label>
-                        <select id="category-filter">
-                            <option value="all">All</option>
-                            <option value="Storage">Storage</option>
-                            <option value="Display">Display</option>
-                            <option value="Memory">Memory</option>
-                            <option value="CPU">CPU</option>
-                            <option value="GPU">GPU</option>
-                            <option value="Peripherals">Peripherals</option>
-                            <option value="Batteries">Batteries</option>
-                        </select>
-                    </div>
-                    <button id="add-product-btn" class="btn primary-btn"><i class="fas fa-plus"></i> Add Product</button>
-                </div>
-                <div id="products-container" class="products-container">
-                    <!-- Products will be added here dynamically -->
-                </div>
-            </div>
-
-            <!-- Statistics Content -->
-            <div id="statistics-content" class="content-section">
-                <h2>Statistics</h2>
-                <div class="statistics-summary">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
-                        <div class="stat-info">
-                            <h3>Total Applications</h3>
-                            <p id="stats-total-applications">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-calendar-week"></i></div>
-                        <div class="stat-info">
-                            <h3>Last 7 Days</h3>
-                            <p id="stats-recent-applications">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-box"></i></div>
-                        <div class="stat-info">
-                            <h3>Total Products</h3>
-                            <p id="stats-total-products">0</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="statistics-charts">
-                    <div class="chart-container">
-                        <h3>Applications by Location</h3>
-                        <canvas id="stats-location-chart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <h3>Applications by Status</h3>
-                        <canvas id="stats-status-chart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <h3>Applications by Issue Type</h3>
-                        <canvas id="stats-issue-type-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Messages Content -->
-            <div id="messages-content" class="content-section">
-                <h2>Messages</h2>
-                <div class="messages-container">
-                    <div class="send-message-form">
-                        <h3>Send Message</h3>
-                        <form id="send-message-form">
-                            <div class="form-group">
-                                <label for="message-recipient">Recipient Email</label>
-                                <input type="email" id="message-recipient" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="message-subject">Subject</label>
-                                <input type="text" id="message-subject" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="message-content">Message</label>
-                                <textarea id="message-content" rows="4" required></textarea>
-                            </div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn primary-btn">Send Message</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Settings Content -->
-            <div id="settings-content" class="content-section">
-                <h2>Settings</h2>
-                <div class="settings-container">
-                    <div class="form-container">
-                        <h3>Change Password</h3>
-                        <form id="change-password-form">
-                            <div class="form-group">
-                                <label for="current-password">Current Password</label>
-                                <input type="password" id="current-password" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="new-password">New Password</label>
-                                <input type="password" id="new-password" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirm-password">Confirm New Password</label>
-                                <input type="password" id="confirm-password" required>
-                            </div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn primary-btn">Change Password</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <!-- Main Content -->
+  <div class="flex-1 p-4 md:p-8">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold mb-1">Salom, Master!</h1>
+      <p class="text-gray-500">Boshqaruv paneliga xush kelibsiz</p>
     </div>
 
-    <!-- Edit Application Modal -->
-    <div id="edit-application-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Edit Application</h2>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="edit-application-form">
-                    <input type="hidden" id="edit-application-id">
-                    <div class="form-group">
-                        <label for="edit-device-name">Device Name</label>
-                        <input type="text" id="edit-device-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-problem-type">Problem Type</label>
-                        <input type="text" id="edit-problem-type" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-issue-type">Issue Type</label>
-                        <select id="edit-issue-type" required>
-                            <option value="hardware">Hardware Issue</option>
-                            <option value="software">Software Issue</option>
-                            <option value="both">Hardware & Software Issue</option>
-                            <option value="not-sure">Not Specified</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-description">Description</label>
-                        <textarea id="edit-description" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-location">Location</label>
-                        <input type="text" id="edit-location" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-status">Status</label>
-                        <select id="edit-status" required>
-                            <option value="pending">Pending</option>
-                            <option value="in-progress">In Progress</option>
-                            <option value="completed">Completed</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-                    <div id="rejection-reason-group" class="form-group" style="display: none;">
-                        <label for="rejection-reason">Rejection Reason</label>
-                        <textarea id="rejection-reason" rows="3"></textarea>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn primary-btn">Save Changes</button>
-                        <button type="button" id="cancel-edit-btn" class="btn secondary-btn">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white p-4 rounded shadow">
+        <p class="text-sm text-gray-500">Jami murojatlar</p>
+        <h2 class="text-2xl font-bold" id="all_requests">0</h2>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <p class="text-sm text-gray-500">Yangi murojatlar</p>
+        <h2 class="text-2xl font-bold" id="new_murojatlar">0</h2>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <p class="text-sm text-gray-500">Jami mahsulotlar</p>
+        <h2 class="text-2xl font-bold" id="all_products">0</h2>
+      </div>
     </div>
 
-    <!-- Add Product Modal -->
-    <div id="add-product-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Add Product</h2>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="add-product-form">
-                    <div class="form-group">
-                        <label for="product-name">Product Name</label>
-                        <input type="text" id="product-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-category">Category</label>
-                        <select id="product-category" required>
-                            <option value="">Select a category</option>
-                            <option value="Storage">Storage</option>
-                            <option value="Display">Display</option>
-                            <option value="Memory">Memory</option>
-                            <option value="CPU">CPU</option>
-                            <option value="GPU">GPU</option>
-                            <option value="Peripherals">Peripherals</option>
-                            <option value="Batteries">Batteries</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-description">Description</label>
-                        <textarea id="product-description" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-price">Price ($)</label>
-                        <input type="number" id="product-price" min="0" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-stock">Stock</label>
-                        <input type="number" id="product-stock" min="0" step="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-image">Image URL</label>
-                        <input type="url" id="product-image" required>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn primary-btn">Add Product</button>
-                        <button type="button" id="cancel-product-btn" class="btn secondary-btn">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Edit Product Modal -->
-    <div id="edit-product-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Edit Product</h2>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="edit-product-form">
-                    <input type="hidden" id="edit-product-id">
-                    <div class="form-group">
-                        <label for="edit-product-name">Product Name</label>
-                        <input type="text" id="edit-product-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-product-category">Category</label>
-                        <select id="edit-product-category" required>
-                            <option value="">Select a category</option>
-                            <option value="Storage">Storage</option>
-                            <option value="Display">Display</option>
-                            <option value="Memory">Memory</option>
-                            <option value="CPU">CPU</option>
-                            <option value="GPU">GPU</option>
-                            <option value="Peripherals">Peripherals</option>
-                            <option value="Batteries">Batteries</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-product-description">Description</label>
-                        <textarea id="edit-product-description" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-product-price">Price ($)</label>
-                        <input type="number" id="edit-product-price" min="0" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-product-stock">Stock</label>
-                        <input type="number" id="edit-product-stock" min="0" step="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-product-image">Image URL</label>
-                        <input type="url" id="edit-product-image" required>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn primary-btn">Save Changes</button>
-                        <button type="button" id="cancel-edit-product-btn" class="btn secondary-btn">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Delete Confirmation Modal -->
-    <div id="delete-confirmation-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Confirm Deletion</h2>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this product?</p>
-                <input type="hidden" id="delete-product-id">
-                <div class="form-actions">
-                    <button id="confirm-delete-btn" class="btn danger-btn">Delete</button>
-                    <button id="cancel-delete-btn" class="btn secondary-btn">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Tabs -->
+    <div class="mb-4">
+      <div class="flex gap-2 border-b">
+        <button class="tab-btn px-4 py-2 border-b-2 text-gray-600" data-tab="tab1">Murojatlar</button>
+        <button class="tab-btn px-4 py-2 border-b-2 text-gray-600" data-tab="tab2">Mahsulotlar</button>
+      </div>
 
-    <script src="./js/notification.js"></script>
-    <script src="./js/manager-cabinet.js"></script>
-    <script src="./js/chart.js"></script>
-</body>
-</html>
+      <!-- Murojatlar -->
+      <div id="tab1" class="tab-content hidden mt-4">
+        <div class="bg-white p-4 rounded shadow">
+          <div class="flex justify-between mb-4">
+            <input id="searchInput" type="text" placeholder="Qidirish..." class="border rounded px-3 py-2 w-1/3">
+            <select id="statusFilter" class="border rounded px-3 py-2">
+              <option value="">All</option>
+              <option value="Created">Created</option>
+              <option value="Approved">Approved</option>
+              <option value="In_Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <table class="w-full table-auto text-sm">
+            <thead>
+              <tr class="text-left border-b">
+                <th class="py-2">ID</th>
+                <th>Mavzu</th>
+                <th>Mijoz</th>
+                <th>Sana</th>
+                <th>Status</th>
+                <th class="text-right">Amallar</th>
+              </tr>
+            </thead>
+            <tbody id="murojatlar-table-body">
+              <tr><td colspan="6" class="text-center p-4 text-gray-500">Yuklanmoqda...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Mahsulotlar -->
+      <div id="tab2" class="tab-content hidden mt-4">
+        <div class="bg-white p-4 rounded shadow overflow-x-auto">
+          <h2 class="text-xl font-semibold mb-4">Mahsulotlar ro'yxati</h2>
+          <table class="min-w-full text-sm border border-gray-200">
+            <thead class="bg-gray-100 text-left">
+              <tr>
+                <th class="px-4 py-2 border">#</th>
+                <th class="px-4 py-2 border">Nomi</th>
+                <th class="px-4 py-2 border">Tavsifi</th>
+                <th class="px-4 py-2 border">Narxi</th>
+                <th class="px-4 py-2 border">Soni</th>
+                <th class="px-4 py-2 border">Yaratilgan</th>
+              </tr>
+            </thead>
+            <tbody id="products-table-body">
+              <tr><td colspan="6" class="text-center p-4 text-gray-500">Yuklanmoqda...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center hidden z-50">
+  <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+    <h3 class="text-lg font-semibold mb-4">Tahrirlash</h3>
+    <form id="editForm" class="space-y-4">
+      <input type="hidden" id="edit-id" />
+      <div>
+        <label class="block text-sm font-medium">Yakunlash vaqti:</label>
+        <input type="datetime-local" id="edit-end-time" class="border px-3 py-2 rounded w-full" required />
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Narxi (UZS):</label>
+        <input type="number" id="edit-price" class="border px-3 py-2 rounded w-full" required />
+      </div>
+      <!-- Status maydoni yo'q, avtomatik "Approved" bo'ladi -->
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded">Bekor qilish</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Saqlash</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+    const murojatlar = document.getElementById('all_requests');
+    const new_murojatlar = document.getElementById('new_murojatlar');
+    const all_products = document.getElementById('all_products');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('border-blue-500', 'text-blue-600'));
+        contents.forEach(c => c.classList.add('hidden'));
+        document.getElementById(btn.dataset.tab).classList.remove('hidden');
+        btn.classList.add('border-blue-500', 'text-blue-600');
+      });
+    });
+
+    function renderStatus(status) {
+      const map = {
+        created: 'bg-gray-500',
+        approved: 'bg-blue-500',
+        in_progress: 'bg-yellow-500',
+        completed: 'bg-green-500'
+      };
+      return `<span class="px-2 py-1 rounded text-white text-xs ${map[status.toLowerCase()] || 'bg-gray-400'}">${status}</span>`;
+    }
+
+    function loadMahsulotlar() {
+      fetch("http://127.0.0.1:8000/api/v1/main/products/", { credentials: "include" })
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.getElementById("products-table-body");
+          tbody.innerHTML = "";
+          all_products.innerText = data.length;
+          data.forEach((product, index) => {
+            const tr = document.createElement("tr");
+            tr.className = "hover:bg-gray-50";
+            tr.innerHTML = `
+              <td class="px-4 py-2 border">${index + 1}</td>
+              <td class="px-4 py-2 border">${product.name}</td>
+              <td class="px-4 py-2 border">${product.description}</td>
+              <td class="px-4 py-2 border">${product.price}</td>
+              <td class="px-4 py-2 border">${product.count}</td>
+              <td class="px-4 py-2 border">${new Date(product.created_at).toLocaleDateString()}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        });
+    }
+
+    function openEditModal(id, status, end_time, price) {
+      document.getElementById("edit-id").value = id;
+      document.getElementById("edit-status").value = "Approved";
+      document.getElementById("edit-end-time").value = end_time ? new Date(end_time).toISOString().slice(0, 16) : '';
+      document.getElementById("edit-price").value = price || '';
+      document.getElementById("editModal").classList.remove("hidden");
+    }
+
+  function openEditModal(id, status, end_time, price) {
+    document.getElementById("edit-id").value = id;
+    document.getElementById("edit-end-time").value = end_time ? new Date(end_time).toISOString().slice(0, 16) : '';
+    document.getElementById("edit-price").value = price || '';
+    document.getElementById("editModal").classList.remove("hidden");
+  }
+
+  function closeModal() {
+    document.getElementById("editModal").classList.add("hidden");
+  }
+
+  document.getElementById("editForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const id = document.getElementById("edit-id").value;
+    const end_time = document.getElementById("edit-end-time").value;
+    const price = document.getElementById("edit-price").value;
+    const status = "Approved";
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.startsWith(name + "=")) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    // Get CSRF token
+    const csrftoken = getCookie("csrftoken");
+    fetch(`http://127.0.0.1:8000/api/v1/main/devices/master/${id}/`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" ,"X-CSRFToken": csrftoken},
+
+      body: JSON.stringify({ status, end_time, price })
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Serverda xatolik");
+      return res.json();
+    })
+    .then(() => {
+      closeModal();
+      loadMurojatlar();
+    })
+    .catch(err => console.error("Xatolik:", err));
+  });
+
+  function loadMurojatlar() {
+    fetch("http://127.0.0.1:8000/api/v1/main/devices/master/", { credentials: "include" })
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.getElementById("murojatlar-table-body");
+        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        const filterStatus = document.getElementById("statusFilter").value.toLowerCase();
+
+        tbody.innerHTML = "";
+        murojatlar.innerText = data.length;
+        new_murojatlar.innerText = data.filter(item => item.status === "Created").length;
+
+        const filtered = data.filter(item => {
+          const matchStatus = filterStatus ? item.status.toLowerCase() === filterStatus : true;
+          const matchSearch = item.name.toLowerCase().includes(searchInput) || item.user.email.toLowerCase().includes(searchInput);
+          return matchStatus && matchSearch;
+        });
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center text-gray-500 p-4">Hech narsa topilmadi.</td></tr>`;
+          return;
+        }
+
+        filtered.forEach(device => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-gray-50";
+          tr.innerHTML = `
+            <td class="py-2">${device.id}</td>
+            <td>${device.name}</td>
+            <td>${device.user.email || "-"}</td>
+            <td>${new Date(device.created_at).toLocaleDateString()}</td>
+            <td>${renderStatus(device.status)}</td>
+            <td class="text-right">
+              <button class="text-blue-600 text-xs" onclick="openEditModal(${device.id}, '${device.status}', '${device.end_time || ""}', '${device.price || ""}')">Tahrirlash</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadMahsulotlar();
+    loadMurojatlar();
+    document.getElementById("searchInput").addEventListener("input", loadMurojatlar);
+    document.getElementById("statusFilter").addEventListener("change", loadMurojatlar);
+  });
+
+  function loadDevices() {
+    fetch("http://127.0.0.1:8000/api/v1/main/devices/master/", {
+      credentials: "include"
+    })
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById("murojatlar-table-body");
+      tbody.innerHTML = "";
+      murojatlar.innerText = data.length;
+      const newOnes = data.filter(d => d.status === "Created");
+      new_murojatlar.innerText = newOnes.length;
+
+      data.forEach(device => {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-gray-50";
+        tr.innerHTML = `
+          <td class="py-2">${device.id}</td>
+          <td>${device.name}</td>
+          <td>${device.user.email || "-"}</td>
+          <td>${new Date(device.created_at).toLocaleDateString()}</td>
+          <td>${renderStatus(device.status)}</td>
+          <td class="text-right">
+            <button onclick="openEditModal(${device.id}, '${device.status}', '${device.end_time || ""}', '${device.price || ""}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm">Edit</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    });
+  }
+
+  // Ilovani yuklaganda
+  window.addEventListener("DOMContentLoaded", () => {
+    loadDevices();
+    loadMahsulotlar();
+    buttons[0].click(); // Default active tab
+  });
+</script>
+
+ 

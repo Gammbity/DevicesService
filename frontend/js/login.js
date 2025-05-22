@@ -57,9 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       const result = await response.json();
-      console.log(result);
 
-      if (result.success) {
+      if (result.email) {
         showSuccess(
           "Login link has been sent to your email. Please check your inbox.",
           "Email Sent"
@@ -71,7 +70,23 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error sending login link:", error);
       showError("An error occurred. Please try again.");
     }
+
+     try {
+    const res = await fetch("http://127.0.0.1:8000/api/v1/user/profile/");
+    const data = await res.json();
+    console.log(data);
+
+    if (data.email) {
+      window.location.href = "/client-cabinet.html";
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    showError("An error occurred while loading your profile.");
+  }
+  
   });
+
+  
 
   // Manager login form submission
   const managerLoginForm = document.getElementById("manager-login-form");
@@ -81,27 +96,43 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("manager-email").value;
     const password = document.getElementById("manager-password").value;
 
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.startsWith(name + "=")) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    // Get CSRF token
+    const csrftoken = getCookie("csrftoken");
     try {
-      const response = await fetch("/api/manager-login", {
+      const response = await fetch("http://127.0.0.1:8000/api/v1/user/master/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken,},
         body: JSON.stringify({ email, password }),
       });
 
       const result = await response.json();
-
-      if (result.success) {
+      console.log(result);
+      if (result.detail === "Login successful.") {
         // Store token and user data
         localStorage.setItem("authToken", result.token);
-        localStorage.setItem("userRole", result.manager.role);
-        localStorage.setItem("userEmail", result.manager.email);
+        // localStorage.setItem("userRole", result.manager.role);
+        localStorage.setItem("userEmail", result.email);
 
         showSuccess("Login successful. Redirecting to dashboard...", "Welcome");
-
-        setTimeout(() => {
-          window.location.href = "/manager-cabinet.html";
-        }, 1500);
-      } else {
+        
+        window.location.href = "http://127.0.0.1:5500/frontend/manager-cabinet.html";
+      } 
+      else {
         showError(result.message || "Invalid email or password");
       }
     } catch (error) {

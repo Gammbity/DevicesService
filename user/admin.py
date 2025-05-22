@@ -7,7 +7,7 @@ from . import models
 class UserModelAdmin(BaseUserAdmin):
     ordering = ('email',)
     list_display = ('email', 'is_staff', 'is_superuser')
-    search_fields = ('email',)
+    # search_fields = ('email',)
     readonly_fields = ('created_at', 'updated_at')
     
     fieldsets = (

@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let token = localStorage.getItem("authToken");
   let userRole = localStorage.getItem("userRole");
   let userEmail = localStorage.getItem("userEmail");
+  
+  
 
   // Agar token URL'da bo‘lsa, uni localStorage'ga saqlash
   if (tokenFromUrl) {
@@ -38,14 +40,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Token yoki userRole to‘g‘ri emas bo‘lsa, login sahifasiga yo‘naltirish
-  if (!token || userRole !== "client") {
-    window.location.href = "/login.html";
-    return;
-  }
+  // if (!token || userRole !== "client") {
+  //   window.location.href = "/login.html";
+  //   return;
+  // }
 
   // Foydalanuvchi emailini ko‘rsatish
-  if (userEmail) {
-    document.getElementById("user-email").textContent = userEmail;
+  if (username) {
+    document.getElementById("user-email").textContent = username;
   }
 
   // Load applications
@@ -68,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");
     localStorage.removeItem("userEmail");
-    window.location.href = "/login.html";
+    window.location.href = "../../frontend/login.html";
   });
 
   // Setup quick action buttons
@@ -193,20 +195,36 @@ function setupFormSubmissions(token) {
       e.preventDefault();
 
       const formData = {
-        token, // Tokenni qo‘shish
-        deviceName: document.getElementById("device-name").value,
-        problemType: document.getElementById("problem-type").value,
-        issueType: document.getElementById("issue-type").value,
+        name: document.getElementById("device-name").value,
         description: document.getElementById("description").value,
         location: document.getElementById("location").value,
       };
+      function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.startsWith(name + "=")) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    const csrftoken = getCookie("csrftoken");
 
       try {
         // Backendga so‘rov yuborish
-        const response = await fetch("/api/submit-application", {
+        const response = await fetch("http://127.0.0.1:8000/api/v1/main/device/create/", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken,
+          },
           body: JSON.stringify(formData),
+          credentials: "include"
         });
 
         const result = await response.json();

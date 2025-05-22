@@ -16,9 +16,10 @@ class DeviceSerializer(serializers.ModelSerializer):
             "created_at": {"read_only": True},
             "updated_at": {"read_only": True},
         }
-        read_only_fields = ["created_at", "updated_at", "price", "status", "end_time", "user"]
+        read_only_fields = ["created_at", "updated_at", "user"]
 
     def create(self, validated_data):
+        print(self.context['request'].user)
         user = self.context['request'].user
         validated_data['user'] = user
         return super().create(validated_data)
