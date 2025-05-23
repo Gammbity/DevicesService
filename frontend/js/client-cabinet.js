@@ -106,12 +106,13 @@ const applicationForm = document.getElementById("application-form");
 
 applicationForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-
+    const email = "email";
+    const username = "username";
     const name = document.getElementById("device-name").value;
     const description = document.getElementById("description").value;
     const location = document.getElementById("location").value;
 
-    const payload = { name, description, location };
+    const payload = {email, username, name, description, location };
     // Function to get CSRF token from cookies
     function getCookie(name) {
         let cookieValue = null;

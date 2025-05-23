@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth import login 
 from . import models
 from user import serializers as user_serializers
 
@@ -43,6 +43,7 @@ class DeviceCreateSerializer(serializers.ModelSerializer):
             if not email or not username:
                 raise serializers.ValidationError("Email va username kerak.")
             user = User.objects.create_user(email=email, name=username)
+            login(self.context['request'], user)
 
         validated_data['user'] = user
         return super().create(validated_data)

@@ -120,25 +120,25 @@
                 });
             });
 
-            // Forma yuborish
-            const applicationForm = document.getElementById('application-form');
-            if (applicationForm) {
-                applicationForm.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    alert('Ariza muvaffaqiyatli yuborildi!');
-                    this.reset();
-                });
-            }
+            // // Forma yuborish
+            // const applicationForm = document.getElementById('application-form');
+            // if (applicationForm) {
+            //     applicationForm.addEventListener('submit', function (e) {
+            //         e.preventDefault();
+            //         alert('Ariza muvaffaqiyatli yuborildi!');
+            //         this.reset();
+            //     });
+            // }
 
-            // Chiqish funksiyasi
-            const logoutBtn = document.getElementById('logout-btn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function () {
-                    if (confirm('Haqiqatan ham chiqmoqchimisiz?')) {
-                        alert('Chiqdingiz!');
-                    }
-                });
-            }
+            // // Chiqish funksiyasi
+            // const logoutBtn = document.getElementById('logout-btn');
+            // if (logoutBtn) {
+            //     logoutBtn.addEventListener('click', function () {
+            //         if (confirm('Haqiqatan ham chiqmoqchimisiz?')) {
+            //             alert('Chiqdingiz!');
+            //         }
+            //     });
+            // }
 
             // Foydalanuvchi emailini olish
             async function fetchUserEmail() {
