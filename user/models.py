@@ -33,6 +33,7 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):  
+    name = models.CharField(max_length=255, verbose_name=_("name"))
     email = models.EmailField(unique=True, verbose_name=_("email address"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("updated at"))

@@ -12,10 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ['id', 'email']
-        extra_kwargs = {
-            'email': {'read_only': True},
-        }
+        fields = ["id", "email", "name"]
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()

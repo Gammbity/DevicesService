@@ -61,6 +61,7 @@ class RegisterView(generics.GenericAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 class ProfileView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     """
     View for user profile.
     """

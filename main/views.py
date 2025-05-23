@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from rest_framework.response import Response
 
 from . import serializers
 from . import models
@@ -17,8 +18,16 @@ class ProductListView(generics.ListAPIView):
 
 class DeviceCreateView(generics.CreateAPIView):
     queryset = models.Device.objects.all()
-    serializer_class = serializers.DeviceSerializer
-    permission_classes = [IsAuthenticated]
+    serializer_class = serializers.DeviceCreateSerializer
+    # permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            print(serializer.errors)  # <<< MUHIM QADAM
+            return Response(serializer.errors, status=400)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=201)
 
 class DeviceListView(generics.ListAPIView):
     queryset = models.Device.objects.all()
