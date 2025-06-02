@@ -94,7 +94,7 @@ def token_verify(request, token):
     user = models.User.objects.get(email=email)
     login(request, user)
     models.TokenVerify.objects.create(token=token)
-    return redirect("http://127.0.0.1:5500/frontend/client-cabinet.html")  # Redirect to the desired URL after successful login
+    return redirect("http://13.49.213.104:5500/frontend/client-cabinet.html")  # Redirect to the desired URL after successful login
 
 class LogoutView(views.APIView):
     """

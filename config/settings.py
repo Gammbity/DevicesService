@@ -31,7 +31,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5500',  # frontend manzilingiz
-    'http://127.0.0.1:5500',
+    'http://13.49.213.104:5500',
 ]
 
 # CELERY
