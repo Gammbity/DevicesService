@@ -1,11 +1,12 @@
 FROM python:3.10-slim
 
-WORKDIR /app/backend
+WORKDIR /app
 
-COPY ./backend /app/backend
+COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-ENV PYTHONPATH=/app/backend
+COPY ./backend /app/backend
 
+ENV PYTHONPATH=/app/backend
