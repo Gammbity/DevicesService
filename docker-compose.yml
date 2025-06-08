@@ -1,9 +1,17 @@
+version: '3.8'
+
 services:
   web:
     build: .
-    command: gunicorn backend.config.wsgi:application --bind 0.0.0.0:8000
+    command: >
+      sh -c "
+        pip install -r requirements.txt &&
+        python manage.py migrate &&
+        gunicorn backend.config.wsgi:application --bind 0.0.0.0:8000
+      "
     volumes:
       - .:/app
+    working_dir: /app
     expose:
       - "8000"
     depends_on:
@@ -15,10 +23,15 @@ services:
     image: redis:alpine
 
   celery:
-    build: .
-    command: celery -A backend.config worker --loglevel=info
+    image: python:3.11-slim
+    command: >
+      sh -c "
+        pip install -r requirements.txt &&
+        celery -A backend.config worker --loglevel=info
+      "
     volumes:
       - .:/app
+    working_dir: /app
     depends_on:
       - redis
     env_file:
