@@ -40,7 +40,7 @@ jobs:
         target: "/home/ubuntu/DeviceService"
 
     - name: SSH and deploy on EC2
-      uses: appleboy/ssh-action@v1.0.3 # Eng so'nggi versiyani ishlatamiz
+      uses: appleboy/ssh-action@v1.0.3 # Eng so'nggi versiyani ishlatamiz-
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ubuntu
