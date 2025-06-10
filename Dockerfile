@@ -9,4 +9,7 @@ RUN pip install -r requirements.txt
 
 COPY ./backend /app/backend
 
+RUN python backend/manage.py collectstatic --noinput
+
+
 ENV PYTHONPATH=/app/backend
