@@ -1,7 +1,7 @@
 
 services:
   web:
-    build: .
+    image: gammbity/deviceservice:latest
     command: >
       sh -c "
         pip install -r requirements.txt &&
