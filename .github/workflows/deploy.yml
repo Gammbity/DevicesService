@@ -63,6 +63,4 @@ jobs:
           docker-compose down
           docker image prune -f
           docker-compose pull
-          docker-compose up -d
-          docker system prune -f
-          docker-compose logs --tail=50
+          docker-compose up 
