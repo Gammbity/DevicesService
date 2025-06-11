@@ -26,9 +26,12 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/deviceservice:${{ github.sha }}
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/deviceservice:${{ github.sha }}
+          ${{ secrets.DOCKER_USERNAME }}/deviceservice:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
 
     # - name: Upload .env file
     #   uses: appleboy/scp-action@v0.1.7
