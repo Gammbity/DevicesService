@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const response = await fetch(
-        "http://13.49.213.104:8000/api/v1/user/register/",
+        "http://127.0.0.1:8000/api/v1/user/register/",
         {
           method: "POST",
           headers: {
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
      try {
-    const res = await fetch("http://13.49.213.104:8000/api/v1/user/profile/");
+    const res = await fetch("http://127.0.0.1:8000/api/v1/user/profile/");
     const data = await res.json();
     console.log(data);
 
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Get CSRF token
     const csrftoken = getCookie("csrftoken");
     try {
-      const response = await fetch("http://13.49.213.104:8000/api/v1/user/master/", {
+      const response = await fetch("http://127.0.0.1:8000/api/v1/user/master/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken,},
         credentials: "include",

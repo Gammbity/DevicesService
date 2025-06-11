@@ -59,7 +59,7 @@ document.getElementById("editForm").addEventListener("submit", function (e) {
   const status = "approved";
   const csrftoken = getCookie("csrftoken");
 
-  fetch(`http://13.49.213.104:8000/api/v1/main/devices/master/${id}/`, {
+  fetch(`http://127.0.0.1:8000/api/v1/main/devices/master/${id}/`, {
     method: "PATCH",
     credentials: "include",
     headers: {
@@ -80,7 +80,7 @@ document.getElementById("editForm").addEventListener("submit", function (e) {
 });
 
 function renderDevices() {
-  fetch("http://13.49.213.104:8000/api/v1/main/devices/master/", { credentials: "include" })
+  fetch("http://127.0.0.1:8000/api/v1/main/devices/master/", { credentials: "include" })
     .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("murojatlar-table-body");
@@ -152,7 +152,7 @@ function renderDevices() {
 }
 
 function loadMahsulotlar() {
-  fetch("http://13.49.213.104:8000/api/v1/main/products/", { credentials: "include" })
+  fetch("http://127.0.0.1:8000/api/v1/main/products/", { credentials: "include" })
     .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("products-table-body");
