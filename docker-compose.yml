@@ -41,7 +41,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/default.conf:/etc/nginx/default.conf:ro
     depends_on:
       - web
 
