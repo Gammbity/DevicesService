@@ -32,6 +32,25 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
+
+    - name: Upload .env file
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+        source: ".env"
+        target: "/home/ubuntu/DeviceService"
+
+    # - name: Upload Dockerfile
+    #   uses: appleboy/scp-action@v0.1.7
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ubuntu
+    #     key: ${{ secrets.EC2_SSH_KEY }}
+    #     source: "Dockerfile"
+        # target: "/home/ubuntu/DeviceService"
+
     - name: Copy docker-compose.yml to EC2
       uses: appleboy/scp-action@v0.1.7
       with:
