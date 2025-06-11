@@ -7,9 +7,8 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY ./backend /app/backend
+COPY . /app/
 
 RUN python backend/manage.py collectstatic --noinput
-
 
 ENV PYTHONPATH=/app/backend
