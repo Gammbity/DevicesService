@@ -1,12 +1,5 @@
 FROM python:3.10-slim
 
-RUN apt-get update && apt-get install -y \
-    bpfcc-tools \
-    libbcc-examples \
-    libbcc-dev \
-    python3-bcc \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 COPY requirements.txt /app/
