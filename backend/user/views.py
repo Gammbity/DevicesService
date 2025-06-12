@@ -32,8 +32,8 @@ class LoginView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         user = serializer.validated_data['user']
+        print(user)
 
         # Avval logout qilamiz
         logout(request)
@@ -94,7 +94,7 @@ def token_verify(request, token):
     user = models.User.objects.get(email=email)
     login(request, user)
     models.TokenVerify.objects.create(token=token)
-    return redirect("http://127.0.0.1:5500/frontend/client-cabinet.html")  # Redirect to the desired URL after successful login
+    return redirect("https://devices-service-gcy8.vercel.app/frontend/client-cabinet.html")  # Redirect to the desired URL after successful login
 
 class LogoutView(views.APIView):
     """

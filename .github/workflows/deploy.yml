@@ -40,6 +40,15 @@ jobs:
         source: ".env"
         target: "/home/ubuntu/DeviceService"
 
+    - name: Upload req file
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+        source: "requirements.txt"
+        target: "/home/ubuntu/DeviceService"
+
     - name: Copy docker-compose.yml to EC2
       uses: appleboy/scp-action@v0.1.7
       with:

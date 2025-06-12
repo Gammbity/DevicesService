@@ -15,7 +15,7 @@ submitApplicationLink.addEventListener("click", () => switchSection(submitApplic
 
 (async function () {
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/v1/main/devices", {
+        const response = await fetch("http://13.49.213.104:8000/api/v1/main/devices", {
             headers: { "Content-Type": "application/json" },
             credentials: "include",
         });
@@ -130,7 +130,7 @@ applicationForm.addEventListener("submit", async function (e) {
     }
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/v1/main/device/create/", {
+        const response = await fetch("http://13.49.213.104:8000/api/v1/main/device/create/", {
             method: "POST",
             headers: {
                 "X-CSRFToken": getCookie("csrftoken"), // Agar kerak bo‘lsa (session-based auth)
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Logout
     logoutBtn.addEventListener("click", async () => {
         try {
-            await fetch("http://127.0.0.1:8000/api/v1/user/logout/", {
+            await fetch("http://13.49.213.104:8000/api/v1/user/logout/", {
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRFToken": getCookie("csrftoken"), // Agar kerak bo‘lsa

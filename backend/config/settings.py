@@ -1,20 +1,26 @@
 from pathlib import Path
 from datetime import timedelta
+import os
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5ux0s6r5#*!k#7wi$l5_6%a#j=kssx$#y3o*y4t_fgsskmio=%'
+load_dotenv()
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-secret-key')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "devices-service-sandy.vercel.app"]
+
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost, 127.0.0.1').split(',')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -25,12 +31,18 @@ REST_FRAMEWORK = {
     )
 }
 
-CORS_ALLOW_ALL_ORIGINS = True
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "https://devices-service-gcy8.vercel.app",
+    ]
+
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5500',  # frontend manzilingiz
-    'http://127.0.0.1:5500',
+    'http://localhost:5500', 
+    'http://13.49.213.104:5500',
 ]
 
 # CELERY
