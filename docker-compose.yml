@@ -5,10 +5,8 @@ services:
     command: >
       sh -c "
         pip install -r requirements.txt &&
-        ls &&
-        cd backend &&
-        python manage.py migrate &&
-        python manage.py collectstatic --noinput &&
+        python manage.py migrate --chdir backend &&
+        python manage.py collectstatic --noinput --chdir backend &&
         gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --chdir backend
       "
     volumes:
@@ -29,8 +27,7 @@ services:
     command: >
       sh -c "
         pip install -r requirements.txt &&
-        cd backend &&
-        celery -A config worker --loglevel=info
+        celery -A config worker --loglevel=info --chdir backend
       "
     volumes:
       - .:/app
