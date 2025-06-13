@@ -29,7 +29,8 @@ services:
     command: >
       sh -c "
         pip install -r requirements.txt &&
-        celery -A backend.config worker --loglevel=info
+        cd backend &&
+        celery -A config worker --loglevel=info
       "
     volumes:
       - .:/app
