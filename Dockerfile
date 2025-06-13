@@ -13,13 +13,11 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /app/
+COPY requirements.txt .
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY . /app/
+COPY . .
 
-RUN python backend/manage.py collectstatic --noinput
-
-ENV PYTHONPATH=/app/backend
+RUN python manage.py collectstatic --noinput

@@ -5,13 +5,13 @@ services:
     command: >
       sh -c "
         pip install -r requirements.txt &&
-        python manage.py migrate --chdir backend &&
-        python manage.py collectstatic --noinput --chdir backend &&
-        gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --chdir backend
+        python manage.py migrate &&
+        python manage.py collectstatic --noinput &&
+        gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
       "
     volumes:
       - .:/app
-    working_dir: /app
+    working_dir: /app/backend
     expose:
       - "8000"
     depends_on:
@@ -27,11 +27,11 @@ services:
     command: >
       sh -c "
         pip install -r requirements.txt &&
-        celery -A config worker --loglevel=info --chdir backend
+        celery -A config worker --loglevel=info
       "
     volumes:
       - .:/app
-    working_dir: /app
+    working_dir: /app/backend
     depends_on:
       - redis
     env_file:
@@ -46,9 +46,9 @@ services:
     depends_on:
       - web
 
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    command: tunnel --url http://web:8000
-    depends_on:
-      - web
-    restart: always
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   command: tunnel --url http://web:8000
+  #   depends_on:
+  #     - web
+  #   restart: always
