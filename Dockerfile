@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
 # Kerakli joyga ko‘chib o‘tamiz
-WORKDIR /app
+WORKDIR /app/backend
 
 # Tizim kutubxonalarini o‘rnatamiz
 RUN apt-get update && apt-get install -y \
@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # requirements.txt ni to‘g‘ri joyga nusxalaymiz
-COPY requirements.txt .
+COPY requirements.txt /app/
 
 # Pipni yangilaymiz va kutubxonalarni o‘rnatamiz
 RUN pip install --upgrade pip
