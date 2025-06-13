@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-WORKDIR /app
+WORKDIR /app/backend
 
 RUN apt-get update && apt-get install -y \
     pkg-config \
@@ -13,11 +13,13 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY . /app/
 
-RUN python manage.py collectstatic --noinput
+RUN python backend/manage.py collectstatic --noinput
+
+ENV PYTHONPATH=/app/backend
